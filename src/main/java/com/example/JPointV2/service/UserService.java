@@ -1,16 +1,20 @@
 package com.example.JPointV2.service;
+
 import com.example.JPointV2.exception.AllException;
 import com.example.JPointV2.model.Department;
 import com.example.JPointV2.model.Post;
+import com.example.JPointV2.model.Task;
 import com.example.JPointV2.model.User;
 import com.example.JPointV2.repository.DepartmentRepository;
 import com.example.JPointV2.repository.PostRepository;
+import com.example.JPointV2.repository.TaskRepository;
 import com.example.JPointV2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +24,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
     private final PostRepository postRepository;
+
+    private final TaskRepository taskRepository;
+
     @Transactional
     public User createNewUser(@Validated User _user) {
         return userRepository.save(_user);
@@ -95,6 +102,7 @@ public class UserService {
         departmentRepository.save(department);
         return Optional.of(userRepository.save(user));
     }
+
     @Transactional
     public Optional<User> applyDepartmentsAddPast(Long userId, Long depId, Long postId) {
         User user = userRepository.findById(userId).get();
@@ -104,6 +112,18 @@ public class UserService {
         departmentRepository.save(department);
         user.addPost(post);
         postRepository.save(post);
+        return Optional.of(userRepository.save(user));
+    }
+
+    @Transactional
+    public Optional<User> applyTask(Long userId, Long taskId) {
+        User user = userRepository.findById(userId).get();
+        Task task = taskRepository.findById(taskId).get();
+
+        user.addTask(task);
+        task.addUser(user);
+        taskRepository.save(task);
+
         return Optional.of(userRepository.save(user));
     }
 }

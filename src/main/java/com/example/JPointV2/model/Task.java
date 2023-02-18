@@ -1,5 +1,6 @@
 package com.example.JPointV2.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,7 +44,7 @@ public class Task {
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id"))
     private List<Company> company;
-
+    @JsonIgnore
     @ManyToMany(mappedBy = "tasks")
     private List<User> users;
 

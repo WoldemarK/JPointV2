@@ -96,4 +96,10 @@ public class UserController {
         userService.deleteId(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/apply/{userId}/{taskId}")
+    public ResponseEntity<Optional<User>> applyTask(@PathVariable Long userId,
+                                                    @PathVariable Long taskId) {
+        return new ResponseEntity<>(userService.applyTask(userId, taskId), HttpStatus.CREATED);
+    }
 }

@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "ef832974-49a2-48ad-93d3-55c57d8a24b7",
+		"name": "Department",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/api/depart/create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"ooo3\",\r\n    \"description\": \"Попрошайки\",\r\n    \"peopleCount\": 12,\r\n    \"custom\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/depart/create/new/departments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"depart",
+						"create",
+						"new",
+						"departments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/depart/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/depart/departments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"depart",
+						"departments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/departments/{departmentId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/depart/departments/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"depart",
+						"departments",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/search/name\"",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/depart/search/name?name=IT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"depart",
+						"search",
+						"name"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "IT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "start_name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/depart/search/start_name?name=I",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"depart",
+						"search",
+						"start_name"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "I"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/update/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/depart/search/name?name=IT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"depart",
+						"search",
+						"name"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "IT"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

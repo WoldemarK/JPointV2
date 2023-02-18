@@ -85,4 +85,15 @@ public class UserController {
                     @RequestParam(name = "nameL", required = false) String nameL) {
         return new ResponseEntity<>(userService.getNames(nameF, nameL), HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/searchStartWithNames")
+    public ResponseEntity<List<User>> searchStartWithNames(@RequestParam(name = "nameF") String nameF) {
+        return new ResponseEntity<>(userService.startWithNames(nameF), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteUserById(@PathVariable Long userId) {
+        userService.deleteId(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

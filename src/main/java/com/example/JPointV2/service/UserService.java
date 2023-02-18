@@ -20,11 +20,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
     private final PostRepository postRepository;
-
     @Transactional
     public User createNewUser(@Validated User _user) {
         return userRepository.save(_user);
     }
+
     @Transactional
     public void update(@Validated User user, Long id) {
         User _users = getUsersById(id);
@@ -61,10 +61,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-
-
     @Transactional
-    public void delete(@Validated Long id) {
+    public void deleteId(@Validated Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             userRepository.deleteById(id);
@@ -76,10 +74,11 @@ public class UserService {
         return userRepository.findByFirstNameOrLastName(_nameF, _nameL);
     }
 
-    public List<User> startStartingWithNames(String _name) {
+    public List<User> startWithNames(String _name) {
         return userRepository.findByFirstNameIsStartingWith(_name);
     }
 
+    @Transactional
     public Optional<User> applyPost(Long userId, Long postId) {
         User user = userRepository.findById(userId).get();
         Post post = postRepository.findById(postId).get();
@@ -88,6 +87,7 @@ public class UserService {
         return Optional.of(userRepository.save(user));
     }
 
+    @Transactional
     public Optional<User> applyDepartments(Long userId, Long depId) {
         User user = userRepository.findById(userId).get();
         Department department = departmentRepository.findById(depId).get();
@@ -95,8 +95,8 @@ public class UserService {
         departmentRepository.save(department);
         return Optional.of(userRepository.save(user));
     }
-
-    public Optional<User> applyDepartmentsAddPast(Long userId, Long depId,Long postId) {
+    @Transactional
+    public Optional<User> applyDepartmentsAddPast(Long userId, Long depId, Long postId) {
         User user = userRepository.findById(userId).get();
         Department department = departmentRepository.findById(depId).get();
         Post post = postRepository.findById(postId).get();

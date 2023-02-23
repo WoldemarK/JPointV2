@@ -1,13 +1,12 @@
 package com.example.JPointV2.mapper;
+
 import com.example.JPointV2.dto.UserDto;
-import com.example.JPointV2.model.User;
+import com.example.JPointV2.model.*;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 @Component
-public class UserMapper {
 
+public class UserMapper {
     public UserDto convertPersonToDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
@@ -24,6 +23,7 @@ public class UserMapper {
                 .update(user.getUpdate().atStartOfDay())
                 .build();
     }
+
     public User convertDtoToPerson(UserDto dto) {
         return User.builder()
                 .id(dto.getId())
@@ -36,8 +36,10 @@ public class UserMapper {
                 .email(dto.getEmail())
                 .sex(dto.getSex())
                 .isActive(dto.isActive())
-                .creation(LocalDate.from(dto.getCreation()))
-                .update(LocalDate.from(dto.getUpdate()))
                 .build();
     }
+
+//    void updateFromDto(UserDto userDto, User user) {
+//        userDto.setId(user.getId());
+//    }
 }

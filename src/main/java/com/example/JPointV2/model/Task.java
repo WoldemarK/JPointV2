@@ -44,6 +44,7 @@ public class Task {
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "company_id"))
     private List<Company> company;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "tasks")
     private List<User> users;

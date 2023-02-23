@@ -1,6 +1,8 @@
 package com.example.JPointV2.service;
 
+import com.example.JPointV2.dto.UserDto;
 import com.example.JPointV2.exception.AllException;
+import com.example.JPointV2.mapper.UserMapper;
 import com.example.JPointV2.model.Department;
 import com.example.JPointV2.model.Post;
 import com.example.JPointV2.model.Task;
@@ -14,39 +16,53 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final DepartmentRepository departmentRepository;
     private final PostRepository postRepository;
-
     private final TaskRepository taskRepository;
 
-    @Transactional
-    public User createNewUser(@Validated User _user) {
-        return userRepository.save(_user);
+    public Optional<UserDto> getUsersById(Long id) {
+        return userRepository.findById(id)
+                .map(userMapper::convertPersonToDto);
+
     }
 
     @Transactional
-    public void update(@Validated User user, Long id) {
-        User _users = getUsersById(id);
-        _users.setLogin(user.getLogin());
-        _users.setPassword(user.getPassword());
-        _users.setFirstName(user.getFirstName());
-        _users.setLastName(user.getLastName());
-        _users.setBirth(user.getBirth());
-        _users.setPhoneNumber(user.getPhoneNumber());
-        _users.setEmail(user.getEmail());
-        _users.setCreation(user.getCreation());
-        _users.setUpdate(user.getUpdate());
-        _users.setDepartments(user.getDepartments());
-        _users.setPosts(user.getPosts());
+    public UserDto createNewUser(@Validated UserDto userDto) {
+        User user = userMapper.convertDtoToPerson(userDto);
+        return userMapper.convertPersonToDto(userRepository.save(user));
+    }
+
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(userMapper::convertPersonToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    @Transactional
+    public void update(@Validated UserDto userDto, Long id) {
+       User _users = userRepository.findById(id).get();
+
+        _users.setLogin(userDto.getLogin());
+        _users.setPassword(userDto.getPassword());
+        _users.setFirstName(userDto.getFirstName());
+        _users.setLastName(userDto.getLastName());
+        _users.setBirth(userDto.getBirth());
+        _users.setPhoneNumber(userDto.getPhoneNumber());
+        _users.setEmail(userDto.getEmail());
+
         userRepository.save(_users);
+
+        userMapper.convertPersonToDto(_users);
 
     }
 
@@ -54,19 +70,9 @@ public class UserService {
     public User createUserAndDepartmentAndPost(@Validated User _user, Long departmentId, Long postId) {
         _user.addDepartment(departmentRepository.findById(departmentId).get());
         _user.addPost(postRepository.findById(postId).get());
-
-
         return userRepository.save(_user);
     }
 
-    public User getUsersById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new AllException("Пользователя с " + id + " не существует"));
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
 
     @Transactional
     public void deleteId(@Validated Long id) {
@@ -77,12 +83,21 @@ public class UserService {
         throw new AllException("Пользователя с " + id + " не существует");
     }
 
-    public List<User> getNames(String _nameF, String _nameL) {
-        return userRepository.findByFirstNameOrLastName(_nameF, _nameL);
+    public List<UserDto> getNames(String _nameF, String _nameL) {
+
+        return userRepository
+                .findByFirstNameOrLastName(_nameF, _nameL)
+                .stream()
+                .map(userMapper::convertPersonToDto)
+                .collect(Collectors.toList());
     }
 
-    public List<User> startWithNames(String _name) {
-        return userRepository.findByFirstNameIsStartingWith(_name);
+    public List<UserDto> startWithNames(String _name) {
+        return userRepository
+                .findByFirstNameIsStartingWith(_name)
+                .stream()
+                .map(userMapper::convertPersonToDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional

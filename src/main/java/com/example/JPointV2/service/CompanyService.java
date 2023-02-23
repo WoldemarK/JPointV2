@@ -1,5 +1,8 @@
 package com.example.JPointV2.service;
+
+import com.example.JPointV2.dto.CompanyDto;
 import com.example.JPointV2.exception.AllException;
+import com.example.JPointV2.mapper.CompanyMapper;
 import com.example.JPointV2.model.Company;
 import com.example.JPointV2.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,51 +11,67 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CompanyService {
     private final CompanyRepository companyRepository;
+    private final CompanyMapper companyMapper;
 
-    public Company createCompany(@Validated Company _company) {
-        return companyRepository.save(_company);
+    public CompanyDto createCompany(@Validated CompanyDto companyDto) {
+        Company company = companyMapper.convertDtoToCompany(companyDto);
+        return companyMapper.convertCompanyToDto(companyRepository.save(company));
     }
 
 
-    public void updateCompany(@Validated Company _company, Long _companyId) {
+    public void updateCompany(@Validated CompanyDto companyDto, Long _companyId) {
         Company comp = companyRepository
                 .findById(_companyId)
-                .orElseThrow(() -> new AllException("Компания с ID " + _company.getId() + " не найдена"));
+                .orElseThrow(() -> new AllException("Компания с ID " + companyDto.getId() + " не найдена"));
 
-        comp.setId(_company.getId());
-        comp.setName(_company.getName());
-        comp.setEmail(_company.getEmail());
-        comp.setPhoneNumber(_company.getPhoneNumber());
-        comp.setDescriptions(_company.getDescriptions());
-        comp.setType(_company.getType());
-        comp.setWebsite(_company.getWebsite());
-        comp.setINN(_company.getINN());
-        comp.setCreation(_company.getCreation());
-        comp.setUpdate(_company.getUpdate());
+        comp.setId(companyDto.getId());
+        comp.setName(companyDto.getName());
+        comp.setEmail(companyDto.getEmail());
+        comp.setPhoneNumber(companyDto.getPhoneNumber());
+        comp.setDescriptions(companyDto.getDescriptions());
+        comp.setType(companyDto.getType());
+        comp.setWebsite(companyDto.getWebsite());
+        comp.setINN(companyDto.getINN());
+        comp.setCreation(companyDto.getCreation());
+        comp.setUpdate(companyDto.getUpdate());
 
         companyRepository.save(comp);
+
+        companyMapper.convertCompanyToDto(comp);
     }
 
-    public List<Company> getAllCompany() {
-        return companyRepository.findAll();
+    public List<CompanyDto> getAllCompany() {
+        return companyRepository.findAll()
+                .stream()
+                .map(companyMapper::convertCompanyToDto)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Company> getCompanyId(Long _companyId) {
+    public Optional<CompanyDto> getCompanyId(Long _companyId) {
         return Optional.ofNullable(companyRepository.findById(_companyId)
+                .map(companyMapper::convertCompanyToDto)
                 .orElseThrow(() -> new AllException("Компании с ID" + _companyId + " не найдено")));
+
     }
 
-    public List<Company> getCompanyByName(String _name) {
-        return companyRepository.findByName(_name);
+    public List<CompanyDto> getCompanyByName(String _name) {
+        return companyRepository.findByName(_name)
+                .stream()
+                .map(companyMapper::convertCompanyToDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Company> startStartingWithNames(String _name) {
-        return companyRepository.findByNameIsStartingWith(_name);
+    public List<CompanyDto> startStartingWithNames(String _name) {
+        return companyRepository.findByNameIsStartingWith(_name).
+                stream()
+                .map(companyMapper::convertCompanyToDto)
+                .collect(Collectors.toList());
     }
 
     public void deleteId(Long _companyId) {

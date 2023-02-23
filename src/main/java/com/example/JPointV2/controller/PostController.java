@@ -1,5 +1,6 @@
 package com.example.JPointV2.controller;
 
+import com.example.JPointV2.dto.PostDto;
 import com.example.JPointV2.model.Post;
 import com.example.JPointV2.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -17,20 +18,20 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/create/new/post")
-    public ResponseEntity<Post> createNewPost(@RequestBody Post _post) {
-        return _post == null
+    public ResponseEntity<PostDto> createNewPost(@RequestBody PostDto postDto) {
+        return postDto == null
                 ? new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED)
-                : new ResponseEntity<>(postService.createNewPost(_post), HttpStatus.CREATED);
+                : new ResponseEntity<>(postService.createNewPost(postDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/get/{postId}")
-    public Optional<Post> getPostById(@PathVariable("postId") Long _postId) {
+    public PostDto getPostById(@PathVariable("postId") Long _postId) {
         return postService.getPostById(_postId);
     }
 
     @GetMapping("/get/all/post")
-    public ResponseEntity<List<Post>> getAllPost() {
-        List<Post> posts = postService.getAllPost();
+    public ResponseEntity<List<PostDto>> getAllPost() {
+        List<PostDto> posts = postService.getAllPost();
         if (posts.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -44,7 +45,7 @@ public class PostController {
     }
 
     @PutMapping("/update/{postId}")
-    public void update(@RequestBody Post post, @PathVariable("postId") Long postId) {
-        postService.updatePosts(post, postId);
+    public void update(@RequestBody PostDto postDto, @PathVariable("postId") Long postId) {
+        postService.updatePosts(postDto, postId);
     }
 }

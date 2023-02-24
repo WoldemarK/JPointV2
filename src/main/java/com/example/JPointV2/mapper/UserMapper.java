@@ -1,11 +1,8 @@
 package com.example.JPointV2.mapper;
 
 import com.example.JPointV2.dto.UserDto;
-import com.example.JPointV2.model.*;
+import com.example.JPointV2.model.User;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 
@@ -26,6 +23,7 @@ public class UserMapper {
 //                        .map(Post::getId)
 //                        .collect(Collectors.toList()))
 //                        .orElse(null))
+
                 .postsId(user.getPosts())
                 .isActive(user.isActive())
                 .creation(user.getCreation().atStartOfDay())

@@ -1,10 +1,12 @@
 package com.example.JPointV2.dto;
 
+import com.example.JPointV2.model.Post;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -36,8 +38,9 @@ public class UserDto {
     private LocalDateTime update;
     @Schema(description = "class Department по ID")
     private Long departmentId;
-    @Schema(description = "class Post по ID")
-    private Long postId;
+//    @Schema(description = "class Post по ID")
+//    private List<Long> postsId;
+private List<Post> postsId;
     @Schema(description = "class Task по ID")
     private Long taskId;
     @Schema(description = "class Company по ID")

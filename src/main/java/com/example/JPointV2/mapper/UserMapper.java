@@ -4,6 +4,9 @@ import com.example.JPointV2.dto.UserDto;
 import com.example.JPointV2.model.*;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Component
 
 public class UserMapper {
@@ -18,6 +21,12 @@ public class UserMapper {
                 .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail())
                 .sex(user.getSex())
+//                .postsId(Optional.of(user.getPosts()
+//                        .stream()
+//                        .map(Post::getId)
+//                        .collect(Collectors.toList()))
+//                        .orElse(null))
+                .postsId(user.getPosts())
                 .isActive(user.isActive())
                 .creation(user.getCreation().atStartOfDay())
                 .update(user.getUpdate().atStartOfDay())

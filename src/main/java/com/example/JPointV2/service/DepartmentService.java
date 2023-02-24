@@ -21,22 +21,14 @@ public class DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final DepartmentMapper departmentMapper;
 
-//    @Transactional
-//    public DepartmentDto createDepartments(@Validated DepartmentDto departmentDto) {
-////        List<Department> departmentList = departmentRepository.findAll();
-////        for (Department department : departmentList)
-////            if (department.getName().equalsIgnoreCase(_department.getName()))
-////
-////              throw new AllException("Создаваемый департамент существует " + department.getName());
-//
-//        List<Department> departments = departmentRepository.findAll();
-//        return  departments
-//                .stream()
-//                .map(department -> department.getName().compareToIgnoreCase(departmentDto.getName()))
-//                .map(depar->departmentMapper.convertDepartmentToDto(depar))
-//                .collect(Collectors.toList());
-//
-//    }
+    @Transactional
+    public Department createDepartments(@Validated Department department) {
+        List<Department> departmentList = departmentRepository.findAll();
+        for (Department departments : departmentList)
+            if (departments.getName().equalsIgnoreCase(department.getName()))
+                throw new AllException("Создаваемый департамент существует " + department.getName());
+        return departmentRepository.save(department);
+    }
 
 
     public List<DepartmentDto> getAllDepartments() {

@@ -1,10 +1,9 @@
-package com.example.JPointV2.servic;
+package com.example.JPointV2.service;
 
 import com.example.JPointV2.dto.UserDto;
 import com.example.JPointV2.mapper.UserMapper;
 import com.example.JPointV2.model.User;
 import com.example.JPointV2.repository.UserRepository;
-import com.example.JPointV2.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

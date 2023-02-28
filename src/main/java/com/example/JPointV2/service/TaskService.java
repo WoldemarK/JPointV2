@@ -30,7 +30,6 @@ public class TaskService {
                 .map(taskMapper::convertTaskToDto)
                 .collect(Collectors.toList());
     }
-
     @Transactional
     public TaskDto createNewTask(@Validated TaskDto taskDto) {
         Task task = taskMapper.convertDtoToTask(taskDto);
@@ -46,7 +45,6 @@ public class TaskService {
         taskMapper.convertTaskToDto(task.get());
         throw new AllException("Задача с " + taskId + " не найдена");
     }
-
     @Transactional
     public Task applyUsers(Long taskId, Long userId) {
         Task task = taskRepository.findById(taskId).get();
@@ -55,7 +53,6 @@ public class TaskService {
         userRepository.save(user);
         return taskRepository.save(task);
     }
-
     public TaskDto getTaskId(Long taskId) {
         return taskRepository.findById(taskId)
                 .map(taskMapper::convertTaskToDto).orElse(null);

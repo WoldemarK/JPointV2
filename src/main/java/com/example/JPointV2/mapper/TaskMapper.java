@@ -8,11 +8,9 @@ public class TaskMapper {
     public TaskDto convertTaskToDto(Task task) {
         return TaskDto.builder()
                 .id(task.getId())
-                .name(task.getTitle())
+                .title(task.getTitle())
                 .descriptions(task.getDescriptions())
-                .companyId(task.getId())
                 .creation(task.getCreation())
-                .userId(task.getId())
                 .update(task.getUpdate())
                 .build();
 
@@ -22,7 +20,7 @@ public class TaskMapper {
 
         return Task.builder()
                 .id(taskDto.getId())
-                .title(taskDto.getName())
+                .title(taskDto.getTitle())
                 .descriptions(taskDto.getDescriptions())
                 .creation(taskDto.getCreation())
                 .update(taskDto.getUpdate())

@@ -18,13 +18,13 @@ import java.util.Optional;
 public class DepartmentController {
     private final DepartmentService service;
 
-//    @PostMapping("/create/new/departments")
-//    public ResponseEntity<Department> createDepartments(@RequestBody Department _department) {
-//        return _department == null
-//                ? new ResponseEntity<>(HttpStatus.BAD_REQUEST)
-//                : new ResponseEntity<>(service.createDepartments(_department), HttpStatus.CREATED);
-//    }
-//
+    @PostMapping("/create/new/departments")
+    public ResponseEntity<Department> createDepartments(@RequestBody Department _department) {
+        return _department == null
+                ? new ResponseEntity<>(HttpStatus.BAD_REQUEST)
+                : new ResponseEntity<>(service.createDepartments(_department), HttpStatus.CREATED);
+    }
+
 
     @GetMapping("/departments")
     public ResponseEntity<List<DepartmentDto>> getAll() {

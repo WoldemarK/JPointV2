@@ -9,10 +9,8 @@ import java.time.LocalDate;
 @Builder
 public class TaskDto {
     private Long id;
-    private String name;
+    private String title;
     private String descriptions;
-    private Long companyId;
-    private Long userId;
     private LocalDate creation;
     private LocalDate update;
 }

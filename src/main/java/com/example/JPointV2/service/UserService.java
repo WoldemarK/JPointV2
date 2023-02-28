@@ -49,8 +49,8 @@ public class UserService {
 
 
     @Transactional
-    public void update(@Validated UserDto userDto, Long id) {
-       User _users = userRepository.findById(id).get();
+    public UserDto update(@Validated UserDto userDto, Long id) {
+        User _users = userRepository.findById(id).get();
 
         _users.setLogin(userDto.getLogin());
         _users.setPassword(userDto.getPassword());
@@ -64,6 +64,7 @@ public class UserService {
 
         userMapper.convertPersonToDto(_users);
 
+        return userMapper.convertPersonToDto(_users);
     }
 
     @Transactional
